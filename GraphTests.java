@@ -12,7 +12,5 @@ public class GraphTests extends ScriptFileTests {
 	public GraphTests(java.nio.file.Path testFile) {
 		super(testFile);
 	}
-
-	// TODO: add additional white box tests
-
+	
 }

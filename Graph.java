@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Iterator;
 
 
 
@@ -107,8 +108,6 @@ public class Graph<T> {
 	/** 
 	 * @return  return hash code.  
 	 */
-	
-	
 	public int hashCode() {
 		this.checkRep();
 		return (this.graph_name.hashCode());
@@ -118,16 +117,27 @@ public class Graph<T> {
 	/** 
 	 * @return  return the name of this.  
 	 */
-	
-	
 	public String toString() {
 		this.checkRep();
 		return this.graph_name;
 	}
 	
 	
+	/** 
+	 * @return  return the list of the graph nodes.  
+	 */	
+	public Iterator<T> getNodes(){
+		this.checkRep();
+		return this.nodes.keySet().iterator();
+	}
 	
-	
+	/** 
+	 * @return  return the list of the graph nodes.  
+	 */	
+	public Iterator<T> getSons(T node){
+		this.checkRep();
+		return this.nodes.get(node).iterator();
+	}
 	/** 
 	 * @effect throw assertion error if representation invariant is violated.  
 	 */
