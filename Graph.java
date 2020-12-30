@@ -45,10 +45,9 @@ public class Graph<T> {
 	
 	/**
 	 * Constructor for Graph
-	 * @requires name != null && name != ""
-	 * @effects creat a new graph
+	 * @requires name != null && name != ""  
+	 * @effects create a new graph
 	 */
-
 	public Graph(String name) {
 		this.nodes 		= new HashMap<>();
 		this.graph_name = name;
@@ -61,10 +60,10 @@ public class Graph<T> {
 	 * @modifies this
 	 * @effects adds node to this.nodes
 	 */
-
 	public void addNode(T node){
 		this.checkRep();
 		this.nodes.put(node,new HashSet<T>());
+		
 		this.checkRep();
 	}
 	
@@ -79,7 +78,8 @@ public class Graph<T> {
 		this.checkRep();
 		Set<T> sons = this.nodes.get(src);
 		try {
-			sons.add(dst);
+			sons.add(dst);  //TODO maybe we should replace the src.sons with sons ?
+			
 		}catch(Exception e){
 			System.out.println("Edge already exist");
 		}
@@ -91,13 +91,13 @@ public class Graph<T> {
 	 * @requires 	o != null
 	 * @return  false if the graph are the same, false when they are not.   
 	 */
-
+	@Override 
 	public boolean equals(Object o) {
 		this.checkRep();
 		if (o instanceof Graph<?>) {
 			Graph<?> obj = (Graph<?>)o;
 			this.checkRep();
-			return (this.graph_name.equals(obj.graph_name));
+			return (this.graph_name.equals(obj.toString()));
 			
 		}
 		this.checkRep();
@@ -132,19 +132,22 @@ public class Graph<T> {
 	}
 	
 	/** 
-	 * @return  return the list of the graph nodes.  
+	 * @return  return the list of the graph nodes ,if the node without sons or the node doesn't exist at the graph null will be returned.  
 	 */	
 	public Iterator<T> getSons(T node){
 		this.checkRep();
+		if (this.nodes.containsKey(node) == false) {
+			return null;
+		}
 		return this.nodes.get(node).iterator();
 	}
+	
 	/** 
 	 * @effect throw assertion error if representation invariant is violated.  
 	 */
-		
 	public void checkRep() {
 		assert(this.graph_name != null);
-		///there is no chance for duplicate edges case , because we are using Set to hande the childe node for node
+		///there is no chance for duplicate edges case , because we are using Set to hand the child node for node
 	}
 	
 	
