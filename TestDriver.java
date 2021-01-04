@@ -45,7 +45,7 @@ public class TestDriver {
   	public void runTests() throws IOException {
 
     	String inputLine;
-		while ((inputLine = input.readLine()) != null) {
+    	while ((inputLine = input.readLine()) != null) {
 			// echo blank and comment lines
       		if (inputLine.trim().length() == 0 ||
       		    inputLine.charAt(0) == '#') {
@@ -113,7 +113,7 @@ public class TestDriver {
  		}
   		Graph<WeightedNode> new_graph = new Graph<WeightedNode>(graphName);
   		graphs.put(graphName,new_graph);
-  		output.println("Created graph " + new_graph.toString());
+  		output.println("created graph " + new_graph.toString());
   	} 
  
   	
@@ -133,10 +133,9 @@ public class TestDriver {
 		
   		WeightedNode new_node = new WeightedNode(nodeName,Integer.parseInt(cost));
   		nodes.put(nodeName,new_node);
-  		output.println("Created node " + new_node.getName() + " with cost " + new_node.getCost());
+  		output.println("created node " + new_node.getName() + " with cost " + new_node.getCost());
 
   	}
-	
 
   	private void addNode(List<String> arguments) {
 
@@ -156,7 +155,7 @@ public class TestDriver {
   		WeightedNode node_to_add =  nodes.get(nodeName);
   		Graph<WeightedNode> graph = graphs.get(graphName);
   		graph.addNode(node_to_add);
-  		output.println("added node " + nodeName + " to graph" + nodeName);		
+  		output.println("added node " + nodeName + " to " + graph.toString());		
   	}
 
 
@@ -173,17 +172,13 @@ public class TestDriver {
   	}
 
 
-	private void addEdge(String graphName, String parentName, String childName) {
-		
-		
-		  
+	private void addEdge(String graphName, String parentName, String childName) { 
 		Graph<WeightedNode> graph = graphs.get(graphName);
 		WeightedNode pr_node = nodes.get(parentName);
 		WeightedNode ch_node = nodes.get(childName);
-		graph.addEdge(pr_node, pr_node);
+		graph.addEdge(pr_node, ch_node);
 		output.println("added edge from " + parentName + " to " + childName + " in " + graphName);
   	}
-
 
   	private void listNodes(List<String> arguments) {
 
@@ -201,7 +196,7 @@ public class TestDriver {
   		 Graph<WeightedNode> graph = graphs.get(graphName);
   		 Iterator<WeightedNode> it = graph.getNodes();
   		 List<String> list = new ArrayList<>(); 
-  		 output.print(graph.toString() +" contains: ");
+  		 output.print(graph.toString() +" contains:");
   		 while (it.hasNext()) {
   			 list.add(it.next().getName());
   		 }
@@ -260,6 +255,7 @@ public class TestDriver {
     	Iterator<String> iter = arguments.iterator();
     	graphName = iter.next();
 
+
 		// extract source arguments
     	while (iter.hasNext()) {
       		String s = iter.next();
@@ -289,8 +285,9 @@ public class TestDriver {
   		
 		 
   		Graph<WeightedNode> graph = graphs.get(graphName);
-  		List<WeightedNodePath> start = new ArrayList<>();
-  		List<WeightedNode> dest = new ArrayList<>();
+  		List<Integer> l = new ArrayList<>();
+  		Set<WeightedNodePath> start = new HashSet<>();
+  		Set<WeightedNode> dest = new HashSet<>();
   		for (String i : sourceArgs) {
   			start.add(new WeightedNodePath(nodes.get(i)));
   		}
@@ -299,17 +296,20 @@ public class TestDriver {
   		}
   		
   		output.print("shortest path in " + graph.toString() + ": ");
-		PathFinder<WeightedNode, WeightedNodePath> path =  new PathFinder<>(graph);
+  		PathFinder<WeightedNode, WeightedNodePath> path =  new PathFinder<>(graph);
 		WeightedNodePath short_path = path.findPath(start,dest);
 		
 		if (short_path.iterator().hasNext()) {
 			Iterator <WeightedNode> itr = short_path.iterator();
 			while(itr.hasNext()) {
-				output.print(itr.next().getName() + " ");
+				output.print(itr.next().getName());
+				if(itr.hasNext()) {
+					output.print(" ");
+				}
 			}
-			output.println(" ");
+			output.println("");
 		}
-  	}
+ 	}
 
 
 	private static void printUsage() {
@@ -372,3 +372,4 @@ class CommandException extends RuntimeException {
 		super(s);
   	}
 }
+
